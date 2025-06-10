@@ -1,0 +1,37 @@
+- name: Playbook de démo
+  hosts: all
+  # gather_facts: false
+  tasks:
+    # tache cachée: module setup (collecte des facts)
+    - name: On teste la connexion ssh
+      ansible.builtin.ping:
+    - name: On affiche une variable
+      ansible.builtin.debug:
+        var: ansible_devices
+    - name: On s'assure que apache2 soit installé
+      ansible.builtin.package:
+        name: apache2
+        state: present
+      become: true
+      when: ansible_os_family == 'Debian'
+    - name: On s'assure que httpd soit installé
+      ansible.builtin.package:
+        name: httpd
+        state: present
+      become: true
+      when: ansible_os_family == 'RedHat'
+    - name: On s'assure que vim soit installé
+      ansible.builtin.package:
+        name: vim
+        state: present
+      become: true
+    - name: On teste la connexion ssh
+      ansible.builtin.ping:
+    - name: On affiche une variable
+      ansible.builtin.debug:
+        var: serveur_web
+    - name: On s'assure que le serveur HTTP soit bien démarré
+      ansible.builtin.service:
+        state: started
+        name: "{{ serveur_web }}"
+      become: true
