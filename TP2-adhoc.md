@@ -23,12 +23,10 @@ L'inventaire devra :
 
 Réaliser les opérations suivantes à l'aide de commandes ad-hoc (sur toutes les machines)
 
-* Installer python 
 * Changer le "motd"
 * Installer apache grâce au module yum ou apt
 * Copier un fichier de la machine cliente vers les machines distantes (fichier html à placer dans /var/www/html/)
 * Démarrer apache
-* Redémarrer les machines
 
 Vérifiez manuellement que apache est bien démarré après le reboot des machines. Si ce n'est pas le cas, utiliser le module service pour l'activer.
 
