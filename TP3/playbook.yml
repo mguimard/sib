@@ -1,0 +1,41 @@
+- name: Playbook du TP3
+  hosts: all
+  become: true
+  tasks:
+    - name: On s'assure que le motd est bien copié
+      ansible.builtin.copy:
+        src: files/fichier.txt
+        dest: /etc/motd
+        mode: '0644'
+        owner: root
+        group: root
+
+    - name: On s'assure que le paquet apache2 est installé
+      ansible.builtin.apt:
+        name: apache2
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    - name: On s'assure que le paquet httpd est installé
+      ansible.builtin.yum:
+        name: httpd
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: On s'assure que notre fichier html soit placé au bon endroit
+      ansible.builtin.copy:
+        src: files/index.html
+        dest: /var/www/html/
+        mode: '0644'
+
+    - name: On s'assure que le service apache2 soit bien démarré
+      ansible.builtin.service:
+        name: apache2
+        state: started
+      when: ansible_os_family == 'Debian'
+
+    - name: On s'assure que le service httpd soit bien démarré
+      ansible.builtin.service:
+        name: httpd
+        state: started
+      when: ansible_os_family == 'RedHat'
