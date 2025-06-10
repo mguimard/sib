@@ -1,0 +1,4 @@
+sudo dnf install ~/Téléchargements/code-1.100.3-1748872455.el8.x86_64.rpm
+sudo dnf install python3-pip
+pip3 install --user ansible
+pip3 install --user ansible-lint
