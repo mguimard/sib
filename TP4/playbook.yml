@@ -1,0 +1,28 @@
+- name: Playbook du TP4
+  hosts: all
+  become: true
+  vars:
+    server_port: 8080
+  tasks:
+    # tache package, installer nginx
+    - name: On s'assure que nginx soit bien installé
+      ansible.builtin.package:
+        name: nginx
+        state: present
+    # tache template : fichier.j2 -> /etc/nginx/nginx.conf
+    - name: On s'assure que la configuration soit bien présente
+      ansible.builtin.template:
+        src: fichier.j2
+        dest: /etc/nginx/nginx.conf
+        mode: '0644'
+      notify: Restart nginx
+    - name: On s'assure que apache soit démarré
+      ansible.builtin.service:
+        name: "{{ serveur_web }}"
+        state: started
+  handlers:
+    # tache service, nginx restarted (ou reloaded)
+    - name: Restart nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
