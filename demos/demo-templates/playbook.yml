@@ -1,0 +1,35 @@
+- name: Demo de templates
+  hosts: all
+  vars:
+    fruits:
+      - kiwi
+      - banane
+      - citron
+  tasks:
+    - name: On s'assure que notre configuration soit bien sur la machine
+      ansible.builtin.template:
+        src: my-config.j2
+        dest: /etc/my-config.txt
+        mode: '0644'
+        owner: root
+        group: root
+      become: true
+      notify: Restart apache
+
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Fin de playbook
+
+  handlers:
+    - name: Restart apache
+      ansible.builtin.service:
+        name: apache2
+        state: restarted
+      become: true
+      notify: A
+    - name: A
+      ansible.builtin.raw: echo A
+      notify: B
+    - name: B
+      ansible.builtin.raw: echo B
+      notify: A

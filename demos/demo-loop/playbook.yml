@@ -1,0 +1,21 @@
+- name: Demo loop
+  hosts: all
+  vars:
+    fruits:
+      - orange
+      - banane
+      - kiwi
+    paquets:
+      - vim
+      - nginx
+      - nano
+  tasks:
+    - name: On s'assure que les paquets soient installés
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ existe_pas | default(['vim']) }}"
+      become: true
+    - name: On affiche un message
+      ansible.builtin.debug:
+        msg: Fin de playbook

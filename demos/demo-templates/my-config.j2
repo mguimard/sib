@@ -1,0 +1,8 @@
+ip={{ ansible_eth1.ipv4.address }}
+port={{ my_port }}
+machine={{ ansible_hostname }}
+mes_groupes={{ group_names }}
+
+{%for fruit in fruits %}
+- {{ fruit }}
+{% endfor %}

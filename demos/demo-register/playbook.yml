@@ -1,0 +1,12 @@
+- name: Demo register
+  hosts: all
+  tasks:
+    - name: On s'assure que ca fasse ping.
+      ansible.builtin.ping:
+        data: nginx
+      register: retour_du_module_ping
+    - name: On s'assure d'avoir le paquet installé
+      ansible.builtin.package:
+        name: "{{ retour_du_module_ping.ping }}"
+        state: present
+      become: true
