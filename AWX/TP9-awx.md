@@ -34,7 +34,7 @@ Nous pouvons déjà tester de lancer une commande adhoc depuis AWX. Inventaire -
 
 Créer un projet sourcé depuis git. Ajouter l'URL suivante: 
 
-- https://github.com/mguimard/my-ansible-project
+- https://github.com/mguimard/sib
 
 Et cocher la case "synchro automatique", enrgistrer.
 
@@ -48,3 +48,11 @@ Créer un modèle de job avec :
 - et aussi un playbook à lancer.
 
 Le modèle est prêt à être lancé. Vérifier les logs d'exécution.
+
+## Création de plusieurs templates et d'un workflow
+
+Pour chaque playbook du dossier "plays", créer un job template.
+
+Créer ensuite le workflow suivant: https://excalidraw.com/#room=b48dd412b0422e578f72,cZyrD5P4q2_Yn78zu0g7pA
+
+
