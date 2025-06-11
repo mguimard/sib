@@ -15,7 +15,7 @@ A la première connexion, lancer le script de démarrage du cluster kubernetes :
 -------------------------------------------------
 Attendre quelques minutes que le serveur démarre, vérfier avec :
 
-kubectl --all-namespaces get pod
+ kubectl get pod -A
 
 Puis lancer ces commandes
 
