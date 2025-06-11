@@ -1,0 +1,5 @@
+- hosts: all
+  tasks:
+    - service:
+        name: "{{ service }}"
+        state: started
