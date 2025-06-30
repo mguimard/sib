@@ -1,0 +1,5 @@
+[machines_debian]
+machine1 ansible_host=192.168.56.11
+
+[machines_centos]
+machine2 ansible_host=192.168.56.12
