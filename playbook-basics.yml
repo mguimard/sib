@@ -1,0 +1,51 @@
+- name: Ceci est un playbook
+  hosts: all
+  # strategy: free
+  # become: true
+  gather_facts: false
+  vars:
+    voiture: tesla
+    portes: 5
+    fiable: false
+  tasks:
+    # tache cachée: setup
+    - name: On s'assure d'avoir une connexion SSH
+      ansible.builtin.ping:
+    # - name: Tache non idempotente
+    #  ansible.builtin.shell: echo hello >> /home/vagrant/fichier.txt
+    - name: On s'assure que apache2 soit présent
+      ansible.builtin.package:
+        name: apache2
+        state: present
+      become: true
+      register: retour_package
+      failed_when: retour_package is failed
+      ignore_errors: true
+    - name: On s'assure de la conf
+      ansible.builtin.copy:
+        content: |
+          server_addr: 12.56.87.44
+          server_port: 12345
+        dest: /etc/my-super-conf
+        owner: root
+        group: root
+        mode: '0644'
+      become: true
+    - name: On s'assure d'avoir 'coucou' dans fichier.txt
+      ansible.builtin.lineinfile:
+        line: 'Listen 80'
+        path: /etc/apache2/ports.conf
+      become: true
+      when: ansible_os_family == 'Debian'
+    - name: On s'assure que apache soit reload
+      ansible.builtin.service:
+        name: apache2
+        state: reloaded
+      become: true
+      when: ansible_os_family == 'Debian'
+    - name: On affiche une variable
+      ansible.builtin.debug:
+        var: ansible_python.executable
+    - name: On affiche une variable
+      ansible.builtin.debug:
+        msg: 'Valeur de variable: {{ ansible_python.executable }}'
