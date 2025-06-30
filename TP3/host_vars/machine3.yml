@@ -1,0 +1,5 @@
+web_server_package: nginx
+super_variable: whatever
+myapp_my_var: 1234
+myapp_my_var2: whatever
+ansible_qqchose: interdit

@@ -1,0 +1,85 @@
+- name: Playbook du TP3
+  hosts: all
+  vars:
+    web_server_package_unused: tomcat
+  vars_files:
+    - mes-variables.yml
+  vars_prompt:
+    - name: web_server_package_unused
+      prompt: Quel serveur web installer?
+      private: false
+
+  tasks:
+
+    - name: On teste l'existence d'une variable
+      ansible.builtin.debug:
+        var: super_variable
+      when: >
+        super_variable is defined
+        and (super_variable == '1234'
+        or super_variable == 'whatever')
+
+    - name: On teste l'existence d'une variable
+      ansible.builtin.debug:
+        msg: 'Valeur : {{ super_variable }}'
+      when: super_variable is defined
+
+    - name: Ceci est un block
+      become: true
+      vars:
+        my_var: 9999
+      block:
+        - name: Affiche var 1
+          ansible.builtin.debug:
+            msg: Task 1
+        - name: Affiche var 2
+          ansible.builtin.debug:
+            msg: Task 2
+          vars:
+            my_var: 8888
+
+    - name: On load des vars à la volée
+      ansible.builtin.include_vars:
+        file: mes-variables.yml
+
+    - name: On affiche my_var
+      ansible.builtin.debug:
+        var: my_var
+    - name: On s'assure que notre motd soit bien défini
+      ansible.builtin.copy:
+        content: |
+          Hello, welcome to {{ ansible_hostname }}!
+          This server runs {{ ansible_distribution }} {{ ansible_distribution_version }}
+          IP: {{ ansible_host }}
+          Webserver: {{ web_server_package }}
+        dest: /etc/motd
+        owner: root
+        group: root
+        mode: '0644'
+      become: true
+
+    - name: On s'assure que apache2 soit installés sur les debians
+      ansible.builtin.package:
+        name: "{{ web_server_package }}"
+        state: present
+      become: true
+
+    - name: On s'assure que notre index.html soit bien créé
+      ansible.builtin.copy:
+        content: |
+          Hello, welcome to {{ ansible_hostname }}! <br />
+          This server runs {{ ansible_distribution }} {{ ansible_distribution_version }} <br />
+          IP: {{ ansible_host }}
+          Webserver: {{ web_server_package }}
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: '0644'
+      become: true
+
+    - name: On s'assure que le serveur web soit bien démarré
+      ansible.builtin.service:
+        name: "{{ web_server_package }}"
+        state: started
+        enabled: true
+      become: true
