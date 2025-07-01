@@ -1,0 +1,11 @@
+- name: Example de lookup
+  hosts: all
+  vars:
+    my_todo: "{{ lookup('ansible.builtin.url', 'https://jsonplaceholder.typicode.com/todos/1', splitLines = false) }}"
+    my_env_vars: "{{ lookup('ansible.builtin.pipe', '/usr/bin/env') }}"
+    my_env_var: "{{ lookup('ansible.builtin.env','XDG_SESSION_ID') }}"
+    my_random_pet: "{{ lookup('community.general.random_pet', length=16) }}"
+  tasks:
+    - name: Whatever
+      ansible.builtin.debug:
+        var: my_random_pet

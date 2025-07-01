@@ -1,0 +1,22 @@
+# ansible-playbook playbook.yml --ask-vault-pass
+
+- name: Example de vault
+  hosts: all
+  vars_files:
+    - my-variables.yml
+  vars:
+    super_secret: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          30363136353733353338343337346635633961626539306538363536336163306135663237663930
+          3531373334346561326634393233633863663262323063320a333237613133343535653337626535
+          32303739306530336163363063383137346464643064353162333664623563633565303636303530
+          3361326239333038370a623938643736663339303061356338313765383538336235373962663734
+          6462
+  tasks:
+    - name: Affiche le mot de passe
+      ansible.builtin.debug:
+        var: super_secret
+    - name: Affiche my_var
+      ansible.builtin.debug:
+        var: my_var
+        

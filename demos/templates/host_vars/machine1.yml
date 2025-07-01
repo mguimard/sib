@@ -1,1 +1,2 @@
 add_port_to_conf: true
+server_port: 1234

@@ -1,0 +1,31 @@
+- name: Exemple handlers
+  hosts: all
+  tasks:
+    - name: Tache 1
+      ansible.builtin.raw: echo hello
+      notify: Handler 1
+
+    # déclenchement manuel
+    - ansible.builtin.meta: flush_handlers
+
+    - name: Tache 2
+      ansible.builtin.raw: echo hello
+      notify: Handler 1
+
+    - name: Tache 3
+      ansible.builtin.debug:
+        msg: coucou
+      notify: Handler 1
+
+    - name: Tache 4
+      ansible.builtin.raw: echo hello
+      notify: Handler 2
+
+  handlers:
+    - name: Handler 1
+      ansible.builtin.debug:
+        msg: handler 1
+
+    - name: Handler 2
+      ansible.builtin.debug:
+        msg: handler 2

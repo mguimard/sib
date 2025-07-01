@@ -12,5 +12,15 @@
         group: root
         owner: root
         mode: '0644'
-        validate: 
+        validate: file %s
+      become: true
+
+    - name: On s'assure que la conf 2 soit déposée
+      ansible.builtin.template:
+        src: my.j2
+        dest: /etc/my-conf.ini
+        group: root
+        owner: root
+        mode: '0644'
+        validate: file %s
       become: true

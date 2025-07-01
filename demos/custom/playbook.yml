@@ -1,0 +1,15 @@
+- name: Exemple de code custom
+  hosts: all
+  tasks:
+    - name: Utilisation de code custom
+      my_super_module:
+        data: coucou
+      register: retour_super_module
+
+    - name: Affiche une partie du retour
+      ansible.builtin.debug:
+        var: retour_super_module.hey
+
+    - name: Utilisation de fonctions
+      ansible.builtin.debug:
+        msg: "{{ 'hello world' | replaceHelloWith('coucou') }}"

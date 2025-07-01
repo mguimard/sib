@@ -1,0 +1,35 @@
+#
+#
+
+- name: Example de tags
+  hosts: all
+  tasks:
+    - name: Tache 1 setup
+      ansible.builtin.debug:
+        msg: Tache 1
+      tags:
+        - setup
+        - install
+
+    - name: Tache 2 init
+      ansible.builtin.debug:
+        msg: Tache 2
+      tags:
+        - install
+
+    - name: Tache 3 start service
+      ansible.builtin.debug:
+        msg: Tache 3
+      tags:
+        - start
+
+    - name: Tache 4 checks
+      ansible.builtin.debug:
+        msg: Tache 4
+      tags:
+        - checks
+
+
+
+
+
