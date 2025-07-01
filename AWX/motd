@@ -1,0 +1,31 @@
+-------------------------------------------------
+
+   / \ \      / /\ \/ /
+  / _ \ \ /\ / /  \  /
+ / ___ \ V  V /   /  \
+/_/   \_\_/\_/   /_/\_\
+
+Bienvenue sur cette installation AWX
+
+-------------------------------------------------
+A la première connexion, lancer le script de démarrage du cluster kubernetes :
+
+./start.sh
+
+-------------------------------------------------
+Attendre quelques minutes que le serveur démarre, vérfier avec :
+
+ kubectl get pod -A
+
+Puis lancer ces commandes
+
+kubectl patch svc awx-demo-service --type merge -p '{"spec":{"ports":[{"nodePort":31000,"port":80,"targetPort":8052,"name":"http"}]}}'
+
+export NAMESPACE=my-namespace
+kubectl get secret awx-demo-admin-password -o jsonpath="{.data.password}" | base64 --decode
+
+-------------------------------------------------
+Finalement, ouvrir cette page depuis votre navigateur et vous connecter (login=admin):
+
+http://192.168.56.200
+
