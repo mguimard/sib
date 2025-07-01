@@ -1,0 +1,16 @@
+- name: Exemple de templates
+  hosts: all
+  vars:
+    my_db_host: some-host.net
+    my_db_port: 1234
+    my_var: 'coucou le monde'
+  tasks:
+    - name: On s'assure que la conf soit déposée
+      ansible.builtin.template:
+        src: my-super-conf.j2
+        dest: /etc/my-super-conf.ini
+        group: root
+        owner: root
+        mode: '0644'
+        validate: 
+      become: true

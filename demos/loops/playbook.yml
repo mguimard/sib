@@ -1,0 +1,14 @@
+- name: Example de loop
+  hosts: all
+  tasks:
+    - name: On s'assure que tous les packages soient présents
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop: [apache2, vim, nano, nginx, ufw]
+      become: true
+
+    - name: Exemple variable vide
+      ansible.builtin.debug:
+        var: item
+      loop: nExistePas | default([])

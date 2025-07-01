@@ -1,0 +1,14 @@
+# Fichier généré le {{ template_run_date }}
+# {{ my_var | md5 | upper }}
+[general]
+adresse_base_de_donnee={{ my_db_host }}
+{% if add_port_to_conf %}
+port_base_de_donnee={{ my_db_port }}
+{% endif %}
+someVar={{ ansible_hostname }}
+
+[ip machines]
+{% for ip in ansible_all_ipv4_addresses %}
+- {{ ip }}
+{% endfor %}
+{{ ansible_all_ipv4_addresses | join(' AAAAA ')}}
