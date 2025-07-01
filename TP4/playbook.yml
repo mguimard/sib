@@ -2,8 +2,14 @@
   hosts: all
   become: true
   vars:
-    server_port: 8080
+    server_port: 5555
   tasks:
+    - name: Ensure SELinux is disabled
+      ansible.posix.selinux:
+        state: disabled
+      when: ansible_os_family == 'RedHat'
+      notify: Reboot and check SELinux
+
     - name: Ensure nginx is installed
       ansible.builtin.package:
         name: nginx
@@ -17,8 +23,16 @@
         owner: root
         group: root
         mode: '0644'
+      notify: Restart nginx
 
-    - name: Ensure nginx is restarted
+  handlers:
+    - name: Reboot and check SELinux
+      ansible.builtin.reboot:
+        test_command: 'egrep "^SELINUX=disabled" /etc/selinux/config'
+      register: rebooted
+
+    - name: Restart nginx
       ansible.builtin.service:
         name: nginx
         state: restarted
+      when: rebooted is not defined
